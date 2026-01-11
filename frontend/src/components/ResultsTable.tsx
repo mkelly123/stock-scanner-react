@@ -1,16 +1,10 @@
 import { useState } from "react";
+import type { ResultRow } from "../App";
 
-type ResultRow = {
-  symbol: string;
-  price: number;
-  volume: number;
-  score: number;
-  trend: string;
-  history?: number[]; // sparkline data
-};
-
-type Props = {
-  results: ResultRow[];
+type Props = { 
+  results: ResultRow[]; 
+  onSelectSymbol: (symbol: string) => void; 
+  selectedSymbol: string | null; 
 };
 
 export default function ResultsTable({ results }: Props) {
@@ -57,7 +51,7 @@ console.log("ResultsTable received:", results);
   };
 
   return (
-    <table style={{ width: "100%", marginTop: "1rem", borderCollapse: "collapse" }}>
+    <table className="table" style={{ width: "100%", marginTop: "1rem", borderCollapse: "collapse" }}>
       <thead>
         <tr>
           <th onClick={() => toggleSort("symbol")}>Symbol</th>
