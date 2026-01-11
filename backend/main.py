@@ -12,9 +12,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/scan")
+@app.get("/api/scan")
 def scan(mode: str, universe: str):
     tickers = [t.strip().upper() for t in universe.split(",")]
     results = scan_universe(tickers, mode=mode)
-
-    return {"results": results}
+    return results
