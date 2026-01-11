@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+console.log(">>> ACTIVE APP.TSX LOADED <<<");
 
-function App() {
-  const [count, setCount] = useState(0)
+
+
+import { useState } from "react";
+import ScanForm from "./components/ScanForm";
+import ResultsTable from "./components/ResultsTable";
+
+export type ScanResult = {
+  symbol: string;
+  date: string;
+  price: number;
+  pct_change: number;
+  volume: number;
+  score: number;
+  mode: string;
+};
+
+export default function App() {
+  const [results, setResults] = useState<ScanResult[]>([]);
+
+  const handleDummyLoad = () => {
+    setResults([
+      {
+        symbol: "AAPL",
+        date: "2026-01-10",
+        price: 172.34,
+        pct_change: 2.1,
+        volume: 100000,
+        score: 87,
+        mode: "stocks",
+      },
+    ]);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div style={{ padding: "2rem" }}>
+      <h1>Momentum Breakout Scanner</h1>
+      <ScanForm onScan={() => {}} />
+      <button onClick={handleDummyLoad}>Load Dummy Data</button>
+      {results.length > 0 && <ResultsTable data={results} />}
+    </div>
+  );
 }
-
-export default App
