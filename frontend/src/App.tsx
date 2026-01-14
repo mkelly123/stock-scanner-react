@@ -1,3 +1,5 @@
+console.log("PanelContainer loaded");
+
 import { useState } from "react";
 import "./index.css";
 
@@ -5,6 +7,9 @@ import ScannerPanel from "./components/ScannerPanel";
 import ChartPanel from "./components/ChartPanel";
 import Level2Panel from "./components/Level2Panel";
 import TapePanel from "./components/TapePanel";
+import TestPanel from "./components/TestPanel.tsx";
+import PanelContainer from "./components/PanelContainer.tsx";
+import { usePanels } from "./components/state/usePanels";
 
 export type ResultRow = {
   symbol: string;
@@ -18,6 +23,14 @@ export type ResultRow = {
 export default function App() {
   const [results, setResults] = useState<ResultRow[]>([]);
   const [selectedSymbol, setSelectedSymbol] = useState<string | null>(null);
+ 
+  const {
+    // visiblePanels,
+    maximizedPanel,
+    hidePanel,
+    toggleMaximize,
+  } = usePanels();
+
 
   const handleScan = async () => {
     const res = await fetch("/api/scan?mode=stocks&universe=AAPL,MSFT,TSLA");
@@ -100,8 +113,26 @@ export default function App() {
         />
 
         {/* Middle column: Chart */}
-        <ChartPanel selectedSymbol={selectedSymbol} />
+        {/* <PanelContainer
+          title="Chart"
+          isMaximized={maximizedPanel === "chart"}
+          onMaximize={() => toggleMaximize("chart")}
+          onClose={() => hidePanel("chart")}
+        >
+          <ChartPanel symbol={selectedSymbol} />
+        </PanelContainer> */}
 
+<TestPanel
+ title="Chart"
+          isMaximized={maximizedPanel === "chart"}
+        >  
+        
+          <ChartPanel symbol={selectedSymbol} />
+</TestPanel>
+         
+        
+
+        
         {/* Right column: Level 2 + Tape */}
         <div>
           <Level2Panel symbol={selectedSymbol} />
