@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from scanner import scan_universe
+from scanner import router as scanner_router
 
 app = FastAPI()
 

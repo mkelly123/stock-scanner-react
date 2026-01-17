@@ -11,6 +11,7 @@ export default function Level2Panel({ symbol }: Props) {
         borderRadius: "var(--radius)",
         boxShadow: "var(--shadow)",
         border: "1px solid var(--border)",
+        minHeight: "320px",
       }}
     >
       <h2 style={{ marginTop: 0, fontSize: "18px", marginBottom: "8px" }}>

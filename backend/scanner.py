@@ -1,9 +1,42 @@
+# scanner.py
+
 import yfinance as yf
 import pandas as pd
 import time
 from typing import List, Dict
 from pathlib import Path
 from datetime import datetime
+from fastapi import APIRouter
+from pydantic import BaseModel
+
+router = APIRouter()
+
+# =========================
+# MODEL
+# =========================
+
+class ScanResult(BaseModel):
+    symbol: str
+    price: float
+    volume: int
+    float: int
+    relVolume: float
+    changePct: float
+
+# =========================
+# STATIC ENDPOINT (for now)
+# =========================
+
+@router.get("/scan", response_model=List[ScanResult])
+def get_scan_results():
+    return [
+        {"symbol": "BACK", "price": 6.35, "volume": 485590, "float": 1020000, "relVolume": 3.35, "changePct": 82.21},
+        {"symbol": "BRFH", "price": 1.52, "volume": 39800000, "float": 6890000, "relVolume": 8598.03, "changePct": 47.57},
+        {"symbol": "PCSA", "price": 2.38, "volume": 67680000, "float": 2230000, "relVolume": 273.83, "changePct": 47.22},
+        {"symbol": "MNY",  "price": 2.42, "volume": 6870000,  "float": 13820000, "relVolume": 34.34, "changePct": 34.44},
+        {"symbol": "YYGH", "price": 2.94, "volume": 18040000, "float": 34800000, "relVolume": 41.26, "changePct": 30.08},
+        {"symbol": "POAI", "price": 1.72, "volume": 157690,  "float": 3920000,  "relVolume": 5.0,  "changePct": 28.33},
+    ]
 
 # =========================
 # CONFIG
@@ -169,8 +202,3 @@ def save_results(candidates: List[Dict], mode: str) -> None:
     path = RESULTS_DIR / f"{today}_scan_{mode}.csv"
     df.to_csv(path, index=False)
     print(f"\n[INFO] Saved results to {path}")
-
-# =========================
-# MAIN
-# =========================
-
