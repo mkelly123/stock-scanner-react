@@ -1,8 +1,11 @@
-export type ResultRow = {
+export interface ResultRow {
   symbol: string;
-  score: number;
-  volume: number;
   price: number;
-  trend: string;
-  history?: number[];
-};
+  volume: number;
+  float: number;
+  relVolume: number;
+  changePct: number;
+  score?: number;   // optional
+  trend?: string;   // optional
+}
+

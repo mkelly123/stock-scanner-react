@@ -1,15 +1,19 @@
-#root {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
 :root {
   --panel: #1e1e1e;
   --border: #333;
   --radius: 8px;
   --shadow: 0 0 8px rgba(0, 0, 0, 0.3);
   --text-muted: #aaa;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 *,
@@ -26,12 +30,6 @@ body {
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
-}
-
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 16px;
 }
 
 button {
@@ -64,4 +62,17 @@ button:hover {
 
 .button-secondary:hover {
   background: #4b5563;
+}
+
+.layout {
+  width: 100%;
+  max-width: none;
+}
+
+.react-grid-layout {
+  width: 100%;
+}
+
+.react-grid-item {
+  box-sizing: border-box;
 }

@@ -1,48 +1,44 @@
 import type { ResultRow } from "../types";
 
-type Props = {
+interface Props {
   results: ResultRow[];
   onSelectSymbol: (symbol: string) => void;
   selectedSymbol: string | null;
-};
+}
 
 export default function ResultsTable({
   results,
   onSelectSymbol,
-  selectedSymbol,
+  selectedSymbol
 }: Props) {
-  if (results.length === 0) {
-    return <div>No results found.</div>;
-  }
-
   return (
-    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+    <table className="results-table">
       <thead>
-        <tr style={{ backgroundColor: "#333", color: "white" }}>
-          <th style={{ padding: "8px" }}>Symbol</th>
-          <th style={{ padding: "8px" }}>Score</th>
-          <th style={{ padding: "8px" }}>Volume</th>
-          <th style={{ padding: "8px" }}>Price</th>
-          <th style={{ padding: "8px" }}>Trend</th>
+        <tr>
+          <th>Symbol</th>
+          <th>Price</th>
+          <th>Vol</th>
+          <th>Float</th>
+          <th>RelVol</th>
+          <th>%Chg</th>
         </tr>
       </thead>
+
       <tbody>
         {results.map((row) => (
           <tr
             key={row.symbol}
+            className={row.symbol === selectedSymbol ? "selected" : ""}
             onClick={() => onSelectSymbol(row.symbol)}
-            style={{
-              backgroundColor:
-                row.symbol === selectedSymbol ? "#444" : "transparent",
-              cursor: "pointer",
-            }}
-            // onClick={() => onSelectSymbol(row.symbol)}
           >
-            <td style={{ padding: "8px" }}>{row.symbol}</td>
-            <td style={{ padding: "8px" }}>{row.score}</td>
-            <td style={{ padding: "8px" }}>{row.volume.toLocaleString()}</td>
-            <td style={{ padding: "8px" }}>${row.price.toFixed(2)}</td>
-            <td style={{ padding: "8px" }}>{row.trend}</td>
+            <td>{row.symbol}</td>
+            <td>{row.price.toFixed(2)}</td>
+            <td>{row.volume.toLocaleString()}</td>
+            <td>{row.float.toLocaleString()}</td>
+            <td>{row.relVolume.toFixed(2)}</td>
+            <td className={row.changePct >= 0 ? "green" : "red"}>
+              {row.changePct.toFixed(2)}%
+            </td>
           </tr>
         ))}
       </tbody>
