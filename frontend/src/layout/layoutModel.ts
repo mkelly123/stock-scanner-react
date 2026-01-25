@@ -1,4 +1,6 @@
-export const model = {
+import { Model } from "flexlayout-react";
+
+export const layoutJson = {
   global: {},
   borders: [],
   layout: {
@@ -6,22 +8,74 @@ export const model = {
     weight: 100,
     children: [
       {
-        type: "tabset",
-        weight: 50,
+        type: "row",
+        weight: 40,
         children: [
-          { type: "tab", name: "Scanner", component: "scanner" },
-          { type: "tab", name: "News", component: "news" }
+          {
+            type: "tabset",
+            weight: 50,
+            children: [
+              {
+                type: "tab",
+                name: "Scanner",
+                component: "scanner"
+              }
+            ]
+          },
+          {
+            type: "tabset",
+            weight: 50,
+            children: [
+              {
+                type: "tab",
+                name: "Chart",
+                component: "chart"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        type: "row",
+        weight: 30,
+        children: [
+          {
+            type: "tabset",
+            weight: 50,
+            children: [
+              {
+                type: "tab",
+                name: "Level 2",
+                component: "level2"
+              }
+            ]
+          },
+          {
+            type: "tabset",
+            weight: 50,
+            children: [
+              {
+                type: "tab",
+                name: "Tape",
+                component: "tape"
+              }
+            ]
+          }
         ]
       },
       {
         type: "tabset",
-        weight: 50,
+        weight: 30,
         children: [
-          { type: "tab", name: "Chart", component: "chart" },
-          { type: "tab", name: "Level 2", component: "level2" },
-          { type: "tab", name: "Tape", component: "tape" }
+          {
+            type: "tab",
+            name: "News",
+            component: "news"
+          }
         ]
       }
     ]
   }
 };
+
+export const model = Model.fromJson(layoutJson);

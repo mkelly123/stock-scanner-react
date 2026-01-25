@@ -1,12 +1,11 @@
-console.log("THIS IS THE REAL APP.TSX");
-
-import FlexLayoutWrapper from "./layout/FlexLayoutWrapper";
-import "./index.css";
+// Required for React 16 JSX transform
+import React from "react";
+import DockviewWrapper from "./layout/DockviewWrapper";
 
 export default function App() {
   return (
-    <div style={{ width: "100vw", height: "100vh", overflow: "hidden" }}>
-      <FlexLayoutWrapper />
+    <div style={{ width: "100vw", height: "100vh" }}>
+      <DockviewWrapper />
     </div>
   );
 }

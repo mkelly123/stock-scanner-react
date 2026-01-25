@@ -1,10 +1,21 @@
-:root {
+@import "dockview/dist/styles/dockview.css";
+
+/* :root {
   --panel: #1e1e1e;
   --border: #333;
   --radius: 8px;
   --shadow: 0 0 8px rgba(0, 0, 0, 0.3);
   --text-muted: #aaa;
+} */
+
+:root {
+  --dv-color-tab-active-background: #1e1e1e;
+  --dv-color-tab-active-foreground: #ffffff;
+  --dv-color-tab-inactive-background: #2e2e2e;
+  --dv-color-tab-inactive-foreground: #cccccc;
+  --dv-color-border: #444;
 }
+
 
 html,
 body,
@@ -76,3 +87,63 @@ button:hover {
 .react-grid-item {
   box-sizing: border-box;
 }
+
+/* Dockview tabs */
+.dv-tab {
+  cursor: grab;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  background-color: #2a2a2a;
+  color: #ccc;
+  border-right: 1px solid #444;
+  transition: background-color 150ms ease-out, color 150ms ease-out;
+}
+
+.dv-tab-active {
+  background-color: #1e1e1e;
+  color: #fff;
+  cursor: grabbing;
+}
+
+
+/* Dockview Panel Content */
+/* .dv-content {
+  border: 1px solid #444;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  padding: 8px;
+  background-color: #121212;
+  color: #e0e0e0;
+} */
+/* Fade + slide in panel content */
+.dv-content {
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 150ms ease-out,
+    transform 150ms ease-out;
+}
+
+/* When the panel is active/visible */
+.dv-content[style] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+
+
+/* Dockview Container - Font and Spacing */
+.dv-view {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+}
+
+
+/* Dockview Sashes (Splitters) */
+.dv-sash {
+  background-color: #333;
+}
+
+

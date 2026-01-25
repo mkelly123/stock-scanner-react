@@ -9,32 +9,32 @@ type ScanResult = {
   changePct: number;
 };
 
-export default function ScannerPanel({ mode }: { mode: "momentum" | "breakout" }) {
+export default function LiveScannerPanel() {
   const [signals, setSignals] = useState<ScanResult[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [live, setLive] = useState(false);
 
   useEffect(() => {
-    const intervalId = window.setInterval(load, 15000);
+    if (!live) return;
 
+    const ws = new WebSocket("ws://localhost:8000/api/ws/scan");
 
-    async function load() {
-      setLoading(true);
-      const res = await fetch(`/api/scan/${mode}`);
-      const data = await res.json();
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
       setSignals(data);
-      setLoading(false);
-    }
+    };
 
-    load();
+    ws.onerror = () => {
+      console.error("WebSocket error");
+    };
 
-    return () => window.clearInterval(intervalId);
-  }, [mode]);
+    return () => ws.close();
+  }, [live]);
 
   return (
     <div>
-      <h2>{mode === "momentum" ? "Momentum Scanner" : "Breakout Scanner"}</h2>
-
-      {loading && <p>Loading...</p>}
+      <button onClick={() => setLive((v) => !v)}>
+        {live ? "Stop Live Mode" : "Start Live Mode"}
+      </button>
 
       <table>
         <thead>
