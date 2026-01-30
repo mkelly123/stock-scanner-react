@@ -147,3 +147,79 @@ button:hover {
 }
 
 
+/* Scanner Table Styling */
+.scanner-container {
+  padding: 16px;
+  background: #0f1115;
+  color: #e5e5e5;
+  border-radius: 8px;
+  font-family: system-ui, sans-serif;
+}
+
+.live-btn {
+  background: #1f6feb;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: background 0.2s ease;
+}
+
+.live-btn:hover {
+  background: #388bfd;
+}
+
+.scanner-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.scanner-table thead {
+  background: #16181d;
+}
+
+.scanner-table th {
+  padding: 10px;
+  text-align: left;
+  font-weight: 600;
+  color: #9ca3af;
+  border-bottom: 1px solid #2a2d33;
+}
+
+.scanner-table td {
+  padding: 10px;
+  border-bottom: 1px solid #1c1f24;
+}
+
+.scanner-table tr:hover {
+  background: #1a1d22;
+}
+
+.positive {
+  color: #4ade80; /* green */
+  font-weight: 600;
+}
+
+.negative {
+  color: #f87171; /* red */
+  font-weight: 600;
+}
+
+.flash {
+  animation: flash-bg 0.6s ease;
+}
+
+@keyframes flash-bg {
+  0% { background: #1f2937; }
+  100% { background: transparent; }
+}
+
+.highlight {
+  background: #1e3a8a; /* deep blue */
+  color: #facc15;       /* yellow text */
+  font-weight: bold;
+}
