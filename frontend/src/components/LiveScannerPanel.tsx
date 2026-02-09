@@ -1,114 +1,71 @@
-console.log("🔥 USING THIS FILE 🔥");
-
 import React, { useEffect, useState } from "react";
+import Tabs from "./Tabs";
+import ScannerTable from "./ScannerTable";
 
-type ScanResult = {
+
+export interface ScannerResult {
   symbol: string;
   price: number;
-  volume: number;
-  float: number;
-  relVolume: number;
   changePct: number;
-  score: number;
-  flash?: boolean;
-  highlight?: boolean;
-};
+  volume: number;
+  relVolume: number;
+  trend?: string;
+  intradayScore?: number;
+  swingScore?: number;
+  combinedScore?: number;
+  strategy: string;
+  [key: string]: unknown; // allows extra fields without errors
+}
 
 export default function LiveScannerPanel() {
-  const [signals, setSignals] = useState<ScanResult[]>([]);
-  const [live, setLive] = useState(false);
+  const [intradayData, setIntradayData] = useState<ScannerResult[]>([]);
+  const [swingData, setSwingData] = useState<ScannerResult[]>([]);
+
+  // Fetch intraday data
+  useEffect(() => {
+    fetch("http://localhost:8000/api/scan/momentum?strategy=intraday")
+      .then((res) => res.json())
+      .then((data) => setIntradayData(data))
+      .catch((err) => console.error("Intraday fetch error:", err));
+  }, []);
+
+  // Fetch swing data
+  useEffect(() => {
+    fetch("http://localhost:8000/api/scan/momentum?strategy=swing")
+      .then((res) => res.json())
+      .then((data) => setSwingData(data))
+      .catch((err) => console.error("Swing fetch error:", err));
+  }, []);
 
   useEffect(() => {
-    console.log("LiveScannerPanel LOADED");
-
-    if (!live) return;
-
-    console.log("Creating WebSocket…");
-    const socket = new WebSocket("ws://localhost:8000/ws/scan");
+    console.log("Updated Swing data:", swingData);
+  }, [swingData]);
 
 
-    socket.onopen = () => {
-      console.log("WS OPEN");
-    };
-
-    socket.onmessage = (event) => {
-      console.log("WS MSG", event.data);
-
-      const msg = JSON.parse(event.data);
-
-      if (msg.type === "scanner_update") {
-        const row: ScanResult = msg.data;
-
-        setSignals((prev) => {
-          const highlight = row.volume > 50_000_000;
-          const enrichedRow = { ...row, flash: true, highlight };
-
-          const idx = prev.findIndex((s) => s.symbol === row.symbol);
-
-          if (idx >= 0) {
-            const updated = [...prev];
-            updated[idx] = enrichedRow;
-            return updated;
-          }
-
-          return [...prev, enrichedRow];
-        });
-      }
-    };
-
-    socket.onerror = (event) => {
-      console.log("WS ERR", event);
-    };
-
-    socket.onclose = () => {
-      console.log("WS CLOSE");
-    };
-
-    return () => {
-      console.log("Closing WebSocket…");
-      socket.close();
-    };
-  }, [live]);
 
   return (
-    <div className="scanner-container">
-      <button className="live-btn" onClick={() => setLive((v) => !v)}>
-        {live ? "Stop Live Mode" : "Start Live Mode"}
-      </button>
+    <Tabs
+      tabs={[
+        {
+          label: "Intraday",
+          content: () => (
+            <div>
+              <h3>Intraday Scanner</h3>
+              <ScannerTable data={intradayData} />
+            </div>
+          ),
+        },
+        {
+          label: "Swing",
+          content: () => (
+            <div>
+              <h3>Swing Scanner</h3>
+              <ScannerTable data={swingData} />
+            </div>
+          ),
+        },
+      ]}
+    />
 
-      <table className="scanner-table">
-        <thead>
-          <tr>
-            <th>Symbol</th>
-            <th>Price</th>
-            <th>Volume</th>
-            <th>Float</th>
-            <th>Rel Vol</th>
-            <th>Change %</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          {signals.map((s) => (
-            <tr
-              key={s.symbol}
-              className={`${s.flash ? "flash" : ""} ${s.highlight ? "highlight" : ""}`}
-            >
-              <td>{s.symbol}</td>
-              <td>{s.price}</td>
-              <td>{s.volume.toLocaleString()}</td>
-              <td>{s.float.toLocaleString()}</td>
-              <td className={s.relVolume >= 1 ? "positive" : "negative"}>
-                {s.relVolume.toFixed(2)}
-              </td>
-              <td className={s.changePct >= 0 ? "positive" : "negative"}>
-                {s.changePct.toFixed(2)}%
-              </td>
-              <td>{s.score}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
   );
 }
