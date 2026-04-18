@@ -1,4 +1,4 @@
-from backend.scanner_pkg.scan_universe import scan_universe
+from scanner_pkg.scan_universe import scan_universe
 
 
 symbols = ["AAPL", "MSFT", "TSLA"]

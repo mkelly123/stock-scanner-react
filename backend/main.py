@@ -1,18 +1,17 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from backend.websocket_routes import router as ws_router
-from backend.scanner import router as scanner_router
-from backend.news import router as news_router
+from websocket_routes import router as ws_router
+from scanner import router as scanner_router
+from news import router as news_router
 from fastapi import WebSocket
 
 from fastapi.responses import PlainTextResponse
 from fastapi.exceptions import RequestValidationError
 from starlette.websockets import WebSocketDisconnect
 
-
-
 import os
 print(">>> RUNNING BACKEND FROM:", os.getcwd())
+print(">>> LOADING MAIN.PY")
 
 
 app = FastAPI()

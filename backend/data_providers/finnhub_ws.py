@@ -1,9 +1,32 @@
 import os
 import finnhub
+from datetime import datetime, timedelta
 
 FINNHUB_API_KEY = os.getenv("FINNHUB_API_KEY")
 
 client = finnhub.Client(api_key=FINNHUB_API_KEY)
+
+def get_company_news(symbol: str):
+    today = datetime.utcnow().date()
+    week_ago = today - timedelta(days=7)
+
+    news = client.company_news(
+        symbol,
+        _from=str(week_ago),
+        to=str(today)
+    )
+
+    return [
+        {
+            "symbol": symbol.upper(),
+            "headline": item.get("headline", ""),
+            "source": item.get("source", ""),
+            "summary": item.get("summary", ""),
+            "url": item.get("url", ""),
+            "timestamp": item.get("datetime", 0)
+        }
+        for item in news
+    ]
 
 def get_realtime_quote(symbol: str):
     """

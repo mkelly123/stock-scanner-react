@@ -1,7 +1,7 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 import asyncio
-from backend.scanner_pkg.scan_universe import scan_universe
-from backend.scanner_pkg.top_gainers import get_top_gainers
+from scanner_pkg.scan_universe import scan_universe
+from scanner_pkg.top_gainers import get_top_gainers
 
 print(">>> LOADED WS ROUTE X1 <<<")
 
