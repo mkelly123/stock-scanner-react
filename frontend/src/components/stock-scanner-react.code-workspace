@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		}
+	],
+	"settings": {
+		"terminal.integrated.env.windows": {
+			"VIRTUAL_ENV": "${workspaceFolder}\\venv",
+			"PATH": "${workspaceFolder}\\venv\\Scripts;${env:PATH}"
+		},
+		"files.exclude": {
+			"**/node_modules": true,
+			"**/venv": true
+		},
+		"search.exclude": {
+			"**/venv": true
+		}
+	}
+}
